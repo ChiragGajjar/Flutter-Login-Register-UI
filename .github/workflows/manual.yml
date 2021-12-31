@@ -53,20 +53,20 @@ jobs:
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
         
-      - name: Send mail
-        uses: ChiragGajjar/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          # Required mail server port:
-          server_port: 465
-          subject: Github Actions job result
-          # Required recipients' addresses:
-          to: gajjarmail07@gmail.com
-          # Required sender full name (address can be skipped):
-          from: Chirag Sondagar
-          # Optional plain body:
-          body: Build job of ${{github.repository}} completed successfully!
-          # Optional HTML body read from file:
-          html_body: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
-          # Optional attachments:
-          attachments: build/app/outputs/apk/debug/app-debug.apk
+#       - name: Send mail
+#         uses: ChiragGajjar/action-send-mail@v3
+#         with:
+#           server_address: smtp.gmail.com
+#           # Required mail server port:
+#           server_port: 465
+#           subject: Github Actions job result
+#           # Required recipients' addresses:
+#           to: gajjarmail07@gmail.com
+#           # Required sender full name (address can be skipped):
+#           from: Chirag Sondagar
+#           # Optional plain body:
+#           body: Build job of ${{github.repository}} completed successfully!
+#           # Optional HTML body read from file:
+#           html_body: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+#           # Optional attachments:
+#           attachments: build/app/outputs/apk/debug/app-debug.apk
