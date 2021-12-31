@@ -49,4 +49,4 @@ jobs:
           comment: 'Uploaded from Github Action'
       
       - name: Output
-        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+        run: echo "Diawi URL = ${{ url }}"
