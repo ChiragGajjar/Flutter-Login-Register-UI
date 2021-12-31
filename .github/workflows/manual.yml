@@ -43,10 +43,11 @@ jobs:
 
       - name: Generate Diawi link
         uses: rnkdsh/action-upload-diawi@v1.2.1
+        id: diawi
         with:
           token: QWSoA8AXT4j766Y9hgNUSOHs2bgE0hWCuMdMyFkMFv
           file: build/app/outputs/apk/debug/app-debug.apk
           comment: 'Uploaded from Github Action'
       
       - name: Output
-        run: echo "Diawi URL = ${{ url }}"
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
