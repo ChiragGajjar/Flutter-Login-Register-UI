@@ -35,7 +35,7 @@ jobs:
 #         run: flutter test
       - name: Build the APK
         run: flutter build apk --debug
-      - name: Upload artifact to Github
+      - name: publish test results
         uses: actions/upload-artifact@v1
         with:
           name: release-apk
