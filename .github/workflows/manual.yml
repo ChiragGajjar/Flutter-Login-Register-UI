@@ -30,20 +30,45 @@
 #       run: echo "Hello ${{ github.event.inputs.name }}"
 
 
-name: Manual workflow
-on: [push]
+name: CD
+
+on:
+  push:
+    branches:
+      - "v*"
+
 jobs:
-  Explore-GitHub-Actions:
+  # CI
+  build_android:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      - name: Checkout code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 12.x
+      - name: Decrypt Android keys
+        run: sh ./.github/scripts/decrypt_android_keys.sh
+        env:
+          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: 1.17.5
+      - name: Install Flutter dependencies
+        run: flutter pub get
+        # Add build runner commands here if you have any
+      - name: Format files
+        run: flutter format --set-exit-if-changed .
+      - name: Analyze files
+        run: flutter analyze .
+      - name: Run the tests
+        run: flutter test
+      - name: Build the APK
+        run: flutter build apk --release
+      - name: Upload artifact to Github
+        uses: actions/upload-artifact@v1
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
