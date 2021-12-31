@@ -35,7 +35,7 @@ name: CD
 on:
   push:
     branches:
-      - "v*"
+      - "main"
 
 jobs:
   # CI
